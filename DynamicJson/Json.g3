@@ -1,0 +1,127 @@
+﻿grammar Json;
+
+options {
+    language=CSharp3;
+    TokenLabelType=CommonToken;
+    output=AST;
+    ASTLabelType=CommonTree;
+}
+
+tokens {
+    LEFTCURLY='{';
+    RIGHTCURLY='}';
+    LEFTBRACKET='[';
+    RIGHTBRACKET=']';
+    COMMA=',';
+    COLON=':';
+    STRING_TOKEN;
+    NUMBER_TOKEN;
+    ARRAY_TOKEN;
+    EMPTY_ARRAY_TOKEN;
+    OBJECT_TOKEN;
+    EMPTY_OBJECT_TOKEN;
+    TRUE='true';
+    FALSE='false';
+    NULL='null';
+    ASSIGN;
+}
+
+@lexer::namespace{DynamicJson}
+@parser::namespace{DynamicJson}
+
+
+@header {
+using System.Globalization;
+}
+
+public toplevel
+    : object EOF;
+
+public object
+    : LEFTCURLY RIGHTCURLY -> ^(EMPTY_OBJECT_TOKEN)
+    | LEFTCURLY m=members RIGHTCURLY -> ^(OBJECT_TOKEN $m)
+    ;
+
+public members
+    : pair ( COMMA pair )* -> pair+
+    ;
+
+public pair
+    : str=string COLON v=value -> ^(ASSIGN $str $v)
+    ;
+
+public array 
+    : LEFTBRACKET RIGHTBRACKET -> ^(EMPTY_ARRAY_TOKEN)
+    | LEFTBRACKET els=elements RIGHTBRACKET -> ^(ARRAY_TOKEN $els)
+    ;
+
+public elements 
+    : value ( COMMA value )* -> value+
+    ;
+
+public value 
+    : string 
+    | number
+    | object
+    | array
+    | TRUE
+    | FALSE
+    | NULL
+    ;
+
+public string
+    : STRING -> ^(STRING_TOKEN STRING)
+    ;
+
+public number
+    : NUMBER -> ^(NUMBER_TOKEN NUMBER)
+    ;
+
+STRING 
+    : '"' ( ~('"' | '\\') | '\\' . )* '"'
+    ;
+
+NUMBER
+    : INT
+    | INT FRAC
+    | INT EXP
+    | INT FRAC EXP
+    ;
+
+fragment INT
+    : DIGIT
+    | DIGIT19 DIGITS
+    | '-' DIGIT
+    | '-' DIGIT19 DIGITS
+    ;
+
+fragment FRAC
+    : '.' DIGITS
+    ;
+
+fragment EXP
+    : E DIGITS
+    ;
+
+fragment DIGITS
+    : DIGIT+
+    ;
+
+fragment DIGIT
+    : DIGIT19
+    | '0'
+    ;
+
+fragment DIGIT19
+    : '1'..'9'
+    ;
+fragment E
+    : 'e'
+    | 'e+'
+    | 'e-'
+    | 'E'
+    | 'E+'
+    | 'E-'
+    ;
+
+WS  : (' ' | '\t' | '\n' | '\r' '\n')+ { Skip(); };

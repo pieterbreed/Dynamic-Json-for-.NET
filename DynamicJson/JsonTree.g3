@@ -1,0 +1,45 @@
+﻿tree grammar JsonTree;
+
+options {
+    tokenVocab=Json;
+    language=CSharp3;
+    ASTLabelType=CommonTree;
+}
+
+@namespace{DynamicJson}
+
+public object returns [KeyValuePair<string, object>[\] result]
+@init { var tempList = new List<KeyValuePair<string, object>>(); }
+@after { $result = tempList.ToArray(); }
+    : ^(OBJECT_TOKEN (el=kvp { tempList.Add(el); })+)
+    | EMPTY_OBJECT_TOKEN
+    ;
+     
+public array returns [object[\] result]
+@init { var tempList = new List<object>(); }
+@after { $result = tempList.ToArray(); }
+    : ^(ARRAY_TOKEN (el=value { tempList.Add(el); })+) 
+    | EMPTY_ARRAY_TOKEN
+    ;
+
+public value returns [object result]
+    : str=string { result = $str.result; }
+    | nr=number { result = $nr.result; }
+    | a=array { result = $a.result; }
+    | o=object { result = $o.result; }
+    | TRUE { result = true; }
+    | FALSE { result = false; }
+    | NULL { result = null; }
+    ;
+
+public string returns [string result]
+    : ^(STRING_TOKEN str=STRING) { $result = Utilities.GetStringValueFromToken(str.Text); }
+    ;
+
+public number returns [double result]
+    : ^(NUMBER_TOKEN d=NUMBER) { $result = double.Parse(d.Text); }
+    ;
+
+public kvp returns [KeyValuePair<string, object> result]
+    : ^(ASSIGN k=string v=value) { $result = new KeyValuePair<string, object>(k, v); }
+    ;
