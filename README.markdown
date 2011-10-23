@@ -9,6 +9,8 @@ It supports discovery of the JSON objects and types and is also very suitable fo
 
 How
 ---
+djson is licensed under the [MIT license](http://www.opensource.org/licenses/mit-license.php), 
+which basically means you may use it for anything you'd like. A thank-you would be nice.
 
 [ANTLR](http://www.antlr.org/) is used for parsing the JSON text.
 
@@ -22,9 +24,11 @@ Typical use-cases are shown below in the why section.
 Why
 ---
 
-There are a lot of these JSON libraries around, but I wanted to use something which does not require you to pre-define a class
-beforehand. JSON is in its nature very dynamic and I wanted something that would preserve this dynamicity. To illustrate the point,
-here is one of the unit tests that shows the typical usage scenario that I had in mind.
+There are [a lot of these JSON libraries around](http://json.org/), but I wanted to use something which does not require you to pre-define a class
+beforehand. JSON is in its nature very dynamic and I wanted something that would preserve this dynamicity when it
+is being consumed. To illustrate the point:
+
+Here are two unit tests showing the usage scenarios I had in mind when I started this project:
 
             dynamic t = JsonObject.Parse(@"{""number"":123.345,""string"":""string value"",""array"":[123,234],""object"":{""object_nested"":146}}");
             Assert.AreEqual(JsonValueTypes.OBJECT, t.Type);
