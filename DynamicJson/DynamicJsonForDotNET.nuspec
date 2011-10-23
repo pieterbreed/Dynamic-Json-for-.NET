@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+    <metadata>
+        <id>DynamicJsonForDotNET</id>
+        <version>0.9</version>
+        <title>DynamicJsonForDotNET</title>
+        <authors>Pieter Breed</authors>
+        <owners>Pieter Breed</owners>
+        <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+        <projectUrl>https://github.com/pieterbreed/Dynamic-Json-for-.NET</projectUrl>
+        <iconUrl>https://github.com/pieterbreed/Dynamic-Json-for-.NET/raw/master/icon.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>json library for .net 4.0 that preserves the dynamicity of json</description>
+        <releaseNotes>Initial release.</releaseNotes>
+        <copyright>Copyright 2011</copyright>
+        <tags>json dynamic</tags>
+
+    </metadata>
+    <files>
+        <file src="bin\Release\*.dll" target="lib\40" />
+    </files>
+</package>

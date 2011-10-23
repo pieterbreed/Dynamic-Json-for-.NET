@@ -1,0 +1,10 @@
+
+DynamicJson.sln.docstates.suo
+*.suo
+DynamicJson/bin/**
+DynamicJson/obj/**
+Test/bin/**
+Test/obj/**
+TestResults/**
+Thumbs.db
+*.nupkg

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicJson", "DynamicJson\DynamicJson.csproj", "{A205AF02-275A-4833-A247-3F42FC36CEBE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicJsonForDotNET", "DynamicJson\DynamicJsonForDotNET.csproj", "{A205AF02-275A-4833-A247-3F42FC36CEBE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{50685BB7-7F80-4B45-95B2-B340FD2BC499}"
 EndProject
