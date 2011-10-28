@@ -27,11 +27,7 @@ sections. An example of a section is a paragraph, or one kind of chart, or anoth
 
 None of those types of sections are logically the same type of thing, but they belong together and are
 interchangable (can come in any order). While you can invent a structure that knows how to deal with this
-situation I'm saying you might not have to.
-
-
-C# has become more 
-dynamic (.NET 4.0 dynamic types).
+situation I'm saying you might not have to and this library can help you in this situation.
 
 
 How
