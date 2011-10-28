@@ -7,6 +7,33 @@ What
 Dynamic Json is a C# library for parsing JSON strings into CLR objects for which you don't have to pre-define object structures.
 It supports discovery of the JSON objects and types and is also very suitable for use with the C# 4 dynamic type.
 
+### What is it good for?
+
+JSON is dynamic technology where C# started out as statically typed, OO technology. 
+
+There is an obvious impedance mismatch here because as C# developers we got lulled into thinking that
+all data must conform to pre-defined structure. We are very used to saying 'this is what my data will always look like'
+even when that doesn't have to be the case.
+
+For example: WCF is an awesome technology, writing REST services have never been so easy, but data enters
+the system only once it's been serialized into objects via classed marked with DataContract attributes, 
+which is essentially the same user-story that we've had for serialization since the early days.
+
+JSON on the other hand comes from JavaScript which is a dynamically typed language. Data can enter the
+system any way it wants to. 
+
+An example of the kind of problem that is being discussed here is when a report can be broken up into
+sections. An example of a section is a paragraph, or one kind of chart, or another kind of chart and a table.
+
+None of those types of sections are logically the same type of thing, but they belong together and are
+interchangable (can come in any order). While you can invent a structure that knows how to deal with this
+situation I'm saying you might not have to.
+
+
+C# has become more 
+dynamic (.NET 4.0 dynamic types).
+
+
 How
 ---
 djson is licensed under the [MIT license](http://www.opensource.org/licenses/mit-license.php), 
