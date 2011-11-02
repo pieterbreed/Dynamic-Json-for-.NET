@@ -8,3 +8,5 @@ Test/obj/**
 TestResults/**
 Thumbs.db
 *.nupkg
+_ReSharper.**
+*ReSharper**

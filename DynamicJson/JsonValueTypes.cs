@@ -143,6 +143,15 @@ namespace DynamicJson
 
         public override bool ValueQualifies(object value)
         {
+           if (value == null) return false;
+
+           var objType = value.GetType();
+           if (objType.IsArray && objType.GetElementType().Equals(typeof(object)))
+           {
+              return false;
+           }
+
+
             var other = value as System.Collections.IEnumerable;
             if (other == null) return false;
 

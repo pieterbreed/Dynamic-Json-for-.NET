@@ -82,6 +82,15 @@ namespace Test
                 {"t3", "three"}
             };
 
+            Assert.IsTrue(t.Has("string"));
+            Assert.IsTrue(t.Has("number"));
+            Assert.IsTrue(t.Has("bool"));
+            Assert.IsTrue(t.Has("null"));
+            Assert.IsTrue(t.Has("dyn_value"));
+            Assert.IsTrue(t.Has("dict"));
+
+            Assert.IsFalse(t.Has("string_something_else"));
+
             dynamic t2 = JsonObject.Parse(t.MakePrintValue());
 
             Assert.AreEqual("value", t2.@string);

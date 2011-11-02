@@ -358,6 +358,10 @@ namespace DynamicJson
             }
         }
         public string[] Keys { get { return m_values.Keys.ToArray(); } }
+        public bool Has(string memberName)
+        {
+           return Keys.Contains(memberName);
+        }
         public IEnumerable<KeyValuePair<string, JsonValue>> Value { get { return m_values; } }
         public IEnumerable<KeyValuePair<string, JsonValue>> Pairs { get { return Value; } }
         public IDictionary<string, JsonValue> Dictionary { get { return m_values.ToDictionary(v => v.Key, v => v.Value); } }
