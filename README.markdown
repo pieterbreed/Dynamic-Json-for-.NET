@@ -106,3 +106,10 @@ here is another example:
             Assert.AreEqual("one", t.dict.t1);
             Assert.AreEqual("two", t.dict.t2);
             Assert.AreEqual("three", t.dict.t3);
+			
+ASP Environments
+----------------
+
+There is special support for the way that datetime values are [serialized in ASP (WCF) environments](http://msdn.microsoft.com/en-us/library/bb412170.aspx).
+
+You use it with the AspTools: string SerializeDateTimeToString(DateTime d) and AspTools: DateTime ParseStringToDateTime(JsonString str) methods.
