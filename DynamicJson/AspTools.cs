@@ -49,6 +49,20 @@ namespace DynamicJson
          }
       }
 
+      public static bool StringIsDate(string s)
+      {
+         bool result = true;
+         try
+         {
+            var date = ParseStringToDateTime(new JsonString(s));
+         }
+         catch (AspDateTimeException e)
+         {
+            result = false;
+         }
+         return result;
+      }
+
       public static string SerializeDateTimeToString(DateTime d)
       {
          var ms = Convert.ToInt64(
