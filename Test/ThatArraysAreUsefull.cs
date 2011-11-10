@@ -106,5 +106,14 @@ namespace Test
             Assert.IsNull(root[5]);
         }
 
+       [TestMethod]
+       public void ThatCountAndLengthWork()
+       {
+          var array = JsonArray.Parse("[1,3,5,7]");
+          Assert.IsTrue(array.Type.Equals(JsonValueTypes.ARRAY));
+          Assert.AreEqual(4, array.Length);
+          Assert.AreEqual(4, array.Count);
+       }
+
     }
 }

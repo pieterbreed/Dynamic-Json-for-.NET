@@ -289,6 +289,8 @@ namespace DynamicJson
             m_values = a.ToList();
         }
 
+        public int Length { get { return m_values.Count; } }
+        public int Count { get { return Length; } }
         public JsonValue[] Value { get { return m_values.ToArray(); } }
         public JsonValue[] Values { get { return Value; } }
         public JsonValue this[int i]
@@ -330,6 +332,21 @@ namespace DynamicJson
             return Values.Aggregate(357, (i, json) => i ^ json.GetHashCode());
         }
         
+         public static JsonArray Parse(string s)
+        {
+            var inputStream = new ANTLRStringStream(s);
+            var lexer = new JsonLexer(inputStream);
+            var tokens = new CommonTokenStream(lexer);
+            var parser = new JsonParser(tokens);
+            var parseTree = parser.array().Tree;
+            var stream = new CommonTreeNodeStream(parseTree);
+            var tree = new JsonTree(stream);
+
+            var @object = tree.array();
+
+            return new JsonArray(JsonValueTypes.Interpret(@object));
+        }
+
     }
 
     public class JsonObject : JsonValue
@@ -387,12 +404,6 @@ namespace DynamicJson
 
             return base.TryGetMember(binder, out result);
         }
-
-        //public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
-        //{
-        //    result = GetType().InvokeMember(binder.Name, System.Reflection.BindingFlags.InvokeMethod, null, this, args);
-        //    return true;
-        //}
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
