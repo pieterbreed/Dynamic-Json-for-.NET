@@ -19,6 +19,8 @@ You can use it by referencing these dlls into your project:
 * Antlr3.Runtime.dll
 * DynamicJson.dll 
 
+Alternatively you can reference the DynamicJsonForDotNET NuGet package which will set these references for you
+
 Typical use-cases are shown below in the why section.
 
 Why
