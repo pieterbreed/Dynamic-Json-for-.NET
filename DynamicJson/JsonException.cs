@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace DynamicJson
@@ -16,4 +17,26 @@ namespace DynamicJson
           System.Runtime.Serialization.StreamingContext context)
             : base(info, context) { }
     }
+
+   [Serializable]
+   public class AspDateTimeException : JsonException
+   {
+      public AspDateTimeException()
+      {
+      }
+
+      public AspDateTimeException(string message) : base(message)
+      {
+      }
+
+      public AspDateTimeException(string message, Exception inner) : base(message, inner)
+      {
+      }
+
+      protected AspDateTimeException(
+         SerializationInfo info,
+         StreamingContext context) : base(info, context)
+      {
+      }
+   }
 }

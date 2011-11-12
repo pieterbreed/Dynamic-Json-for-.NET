@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspTools.cs" />
     <Compile Include="Json.g3.lexer.cs" />
     <Compile Include="Json.g3.parser.cs" />
     <Compile Include="JsonException.cs" />

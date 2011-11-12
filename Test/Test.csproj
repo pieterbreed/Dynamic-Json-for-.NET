@@ -49,7 +49,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspTests.cs" />
     <Compile Include="DynamicUseCases.cs" />
+    <Compile Include="EmptyArraysAsMembers.cs" />
     <Compile Include="Equality.cs" />
     <Compile Include="ObjectParsingTests.cs" />
     <Compile Include="Printing.cs" />
