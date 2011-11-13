@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AspTests.cs" />
+    <Compile Include="Casting.cs" />
     <Compile Include="DynamicUseCases.cs" />
     <Compile Include="EmptyArraysAsMembers.cs" />
     <Compile Include="Equality.cs" />
@@ -66,9 +67,6 @@
       <Project>{A205AF02-275A-4833-A247-3F42FC36CEBE}</Project>
       <Name>DynamicJsonForDotNET</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

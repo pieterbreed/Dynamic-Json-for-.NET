@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Diagnostics.Contracts;
 
 namespace DynamicJson
 {
@@ -24,7 +25,7 @@ namespace DynamicJson
       /// <see cref="http://msdn.microsoft.com/en-us/library/bb412170.aspx"/>
       public static DateTime ParseStringToDateTime(JsonString str)
       {
-         if (str == null) throw new ArgumentException("str may not be null");
+         Contract.Requires(str != null);
 
          var match = PARSE_DATETIME_STR.Match(str);
 
