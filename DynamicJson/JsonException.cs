@@ -19,7 +19,7 @@ namespace DynamicJson
     }
 
    [Serializable]
-   public class AspDateTimeException : JsonException
+   public class AspDateTimeException : ArgumentException
    {
       public AspDateTimeException()
       {

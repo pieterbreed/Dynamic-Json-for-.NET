@@ -47,7 +47,7 @@ namespace DynamicJson
          }
          catch (FormatException fe)
          {
-            throw new JsonException("datetime string is not in the correct format; cannot parse to long", fe);
+            throw new AspDateTimeException("datetime string is not in the correct format; cannot parse to long", fe);
          }
       }
 

@@ -1,6 +1,14 @@
 README
 ======
 
+Status
+------
+
+Nov 2011: This library is in use on client-facing production code at my employer. It was developed in preparation for this
+project and is being updated as I'm seeing new use-cases. The current major version is 0.9 with small updates
+increasing the minor version number sequentially. The updates so far don't break code written against
+older version, but rather addsnew convenience features.
+
 What
 ----
 
