@@ -33,10 +33,11 @@ namespace DynamicJson
 
          var matchedValue = match.Groups[1].Value;
          bool isUtc = true;
-         if (matchedValue.Contains("+"))
+         var indexOf = matchedValue.IndexOf('+');
+         if (indexOf > -1)
          {
             isUtc = false;
-            matchedValue = matchedValue.Substring(0, matchedValue.IndexOf('+'));
+            matchedValue = matchedValue.Substring(0, indexOf);
          }
 
          try

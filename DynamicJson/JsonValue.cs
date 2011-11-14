@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Dynamic;
@@ -8,6 +9,7 @@ using Antlr.Runtime.Tree;
 
 namespace DynamicJson
 {
+   [ContractClass(typeof(JsonValueContracts))]
    public abstract class JsonValue : DynamicObject
    {
       protected JsonValue(JsonValueType type)
@@ -101,7 +103,33 @@ namespace DynamicJson
       }
       #endregion
 
+      [Pure]
+      public bool IsString { get { return Type == JsonValueTypes.STRING; } }
+      [Pure]
+      public bool IsBool { get { return Type == JsonValueTypes.BOOL; } }
+      [Pure]
+      public bool IsNumber { get { return Type == JsonValueTypes.NUMBER; } }
+      [Pure]
+      public bool IsNull { get { return Type == JsonValueTypes.NULL; } }
+      [Pure]
+      public bool IsArray { get { return Type == JsonValueTypes.ARRAY; } }
+      [Pure]
+      public bool IsObject { get { return Type == JsonValueTypes.OBJECT; } }
 
+   }
+
+   [ContractClassFor(typeof(JsonValue))]
+   class JsonValueContracts : JsonValue
+   {
+      public JsonValueContracts(JsonValueType type) : base(type)
+      {
+      }
+
+      public override string MakePrintValue()
+      {
+         Contract.Ensures(Contract.Result<string>() != null);
+         throw new NotImplementedException();
+      }
    }
 
    public class JsonString : JsonValue
@@ -358,17 +386,36 @@ namespace DynamicJson
       public JsonArray(JsonValue[] a)
          : base(JsonValueTypes.ARRAY)
       {
+         Contract.Requires(a != null);
          m_values = a.ToList();
       }
 
+      [Pure]
       public int Length { get { return m_values.Count; } }
+
+      [Pure]
       public int Count { get { return Length; } }
+
+      [Pure]
       public JsonValue[] Value { get { return m_values.ToArray(); } }
+
+      [Pure]
       public JsonValue[] Values { get { return Value; } }
+
       public JsonValue this[int i]
       {
-         get { return m_values[i]; }
-         set { m_values[i] = value; }
+         get
+         {
+            Contract.Requires(i >= 0);
+            Contract.Requires(i < Count);
+            return m_values[i]; 
+         }
+         set
+         {
+            Contract.Requires(i >= 0);
+            Contract.Requires(i < Count);
+            m_values[i] = value;
+         }
       }
 
       public void Append(JsonValue v)
@@ -416,6 +463,7 @@ namespace DynamicJson
 
          var @object = tree.array();
 
+         Contract.Assume(@object != null);
          return new JsonArray(JsonValueTypes.Interpret(@object));
       }
 
@@ -428,6 +476,7 @@ namespace DynamicJson
       public JsonObject(IEnumerable<KeyValuePair<string, JsonValue>> pairs)
          : base(JsonValueTypes.OBJECT)
       {
+         Contract.Requires(pairs != null);
          m_values = pairs
              .GroupBy(p => p.Key)
              .ToDictionary(g => g.Key, g => g.First().Value);
@@ -521,9 +570,16 @@ namespace DynamicJson
          var tree = new JsonTree(stream);
 
          var @object = tree.@object();
-
+         Contract.Assume(@object != null);
          return new JsonObject(JsonValueTypes.Interpret(@object));
       }
+
+      [ContractInvariantMethod]
+      private void ObjectContracts()
+      {
+         Contract.Invariant(this.m_values != null);
+      }
+
    }
 
 

@@ -19,21 +19,30 @@ namespace Test
             dynamic number = t["number"];
             Assert.AreEqual(JsonValueTypes.NUMBER, number.Type);
             Assert.AreEqual(123.345, number);
+            Assert.IsTrue(number.IsNumber);
+            Assert.IsFalse(number.IsString);
+            Assert.IsFalse(number.IsBool);
+            Assert.IsFalse(number.IsNull);
+            Assert.IsFalse(number.IsArray);
+            Assert.IsFalse(number.IsObject);
 
             dynamic @string = t["string"];
             Assert.AreEqual(JsonValueTypes.STRING, @string.Type);
             Assert.AreEqual("string value", @string);
+            Assert.IsTrue(@string.IsString);
 
             dynamic array = t["array"];
             Assert.AreEqual(123d, array[0]);
             Assert.AreEqual(123, array[0]);
             Assert.AreEqual(234d, array[1]);
             Assert.AreEqual(234, array[1]);
+            Assert.IsTrue(array.IsArray);
 
             dynamic @object = t["object"];
             Assert.AreEqual(JsonValueTypes.OBJECT, @object.Type);
             Assert.AreEqual(1, @object.Keys.Length);
             Assert.AreEqual(146, t["object"]["object_nested"]);
+            Assert.IsTrue(@object.IsObject);
         }
 
         [TestMethod]

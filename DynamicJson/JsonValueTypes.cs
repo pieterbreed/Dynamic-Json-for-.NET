@@ -1,94 +1,95 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 
 namespace DynamicJson
 {
 
-    public abstract class JsonValueType
-    {
-        protected JsonValueType() { }
+   public abstract class JsonValueType
+   {
+      protected JsonValueType() { }
 
-        public abstract bool ValueQualifies(object value);
-        public abstract JsonValue GetValue(object value);
+      public abstract bool ValueQualifies(object value);
+      public abstract JsonValue GetValue(object value);
 
-        public static bool operator ==(JsonValueType a, JsonValueType b)
-        {
-            return System.Object.ReferenceEquals(a, b);
-        }
+      public static bool operator ==(JsonValueType a, JsonValueType b)
+      {
+         return System.Object.ReferenceEquals(a, b);
+      }
 
-        public static bool operator !=(JsonValueType a, JsonValueType b)
-        {
-            return !System.Object.ReferenceEquals(a, b);
-        }
+      public static bool operator !=(JsonValueType a, JsonValueType b)
+      {
+         return !System.Object.ReferenceEquals(a, b);
+      }
 
-        public override bool Equals(object obj)
-        {
-            return System.Object.ReferenceEquals(this, obj);
-        }
+      public override bool Equals(object obj)
+      {
+         return System.Object.ReferenceEquals(this, obj);
+      }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-        
-    }
+      public override int GetHashCode()
+      {
+         return base.GetHashCode();
+      }
 
-    public class JsonBooleanType : JsonValueType
-    {
-        private JsonBooleanType() : base() { }
+   }
 
-        public static readonly JsonBooleanType INSTANCE = new JsonBooleanType();
+   public class JsonBooleanType : JsonValueType
+   {
+      private JsonBooleanType() : base() { }
 
-        public override bool ValueQualifies(object value)
-        {
-            return value != null && value.GetType().Equals(typeof(bool));
-        }
+      public static readonly JsonBooleanType INSTANCE = new JsonBooleanType();
 
-        public override JsonValue GetValue(object value)
-        {
-            return new JsonBoolean((bool)value);
-        }
-    }
+      public override bool ValueQualifies(object value)
+      {
+         return value != null && value.GetType().Equals(typeof(bool));
+      }
 
-    public class JsonNullType : JsonValueType
-    {
-        private JsonNullType() : base() { }
+      public override JsonValue GetValue(object value)
+      {
+         return new JsonBoolean((bool)value);
+      }
+   }
 
-        public static readonly JsonNullType INSTANCE = new JsonNullType();
+   public class JsonNullType : JsonValueType
+   {
+      private JsonNullType() : base() { }
 
-        public override bool ValueQualifies(object value)
-        {
-            return null == value;
-        }
+      public static readonly JsonNullType INSTANCE = new JsonNullType();
 
-        public override JsonValue GetValue(object value)
-        {
-            return new JsonNull();
-        }
-    }
+      public override bool ValueQualifies(object value)
+      {
+         return null == value;
+      }
 
-    public class JsonStringType : JsonValueType
-    {
-        private JsonStringType() : base() { }
+      public override JsonValue GetValue(object value)
+      {
+         return new JsonNull();
+      }
+   }
 
-        public static readonly JsonStringType INSTANCE = new JsonStringType();
+   public class JsonStringType : JsonValueType
+   {
+      private JsonStringType() : base() { }
 
-        public override bool ValueQualifies(object value)
-        {
-            return value != null && value.GetType().Equals(typeof(string));
-        }
+      public static readonly JsonStringType INSTANCE = new JsonStringType();
 
-        public override JsonValue GetValue(object value)
-        {
-            return new JsonString((string)value);
-        }
-    }
+      public override bool ValueQualifies(object value)
+      {
+         return value != null && value.GetType().Equals(typeof(string));
+      }
 
-    public class JsonNumberType : JsonValueType
-    {
-        private readonly static Tuple<Type, Func<object, JsonValue>>[] ACCEPTABLE_NUMERIC_TYPES = new Tuple<Type, Func<object, JsonValue>>[]
+      public override JsonValue GetValue(object value)
+      {
+         return new JsonString((string)value);
+      }
+   }
+
+   public class JsonNumberType : JsonValueType
+   {
+      private readonly static Tuple<Type, Func<object, JsonValue>>[] ACCEPTABLE_NUMERIC_TYPES = new Tuple<Type, Func<object, JsonValue>>[]
                 {
                     new Tuple<Type, Func<object, JsonValue>>(typeof(int), o => new JsonNumber((int) o)),
                     new Tuple<Type, Func<object, JsonValue>>(typeof(uint), o => new JsonNumber((uint) o)),
@@ -103,91 +104,92 @@ namespace DynamicJson
                     new Tuple<Type, Func<object, JsonValue>>(typeof(decimal), o => new JsonNumber((decimal) o))
                 };
 
-        private JsonNumberType() : base() { }
+      private JsonNumberType() : base() { }
 
-        public static readonly JsonNumberType INSTANCE = new JsonNumberType();
+      public static readonly JsonNumberType INSTANCE = new JsonNumberType();
 
-        public override bool ValueQualifies(object value)
-        {
-            return value != null && ACCEPTABLE_NUMERIC_TYPES.Any(t => t.Item1.Equals(value.GetType()));
-        }
+      public override bool ValueQualifies(object value)
+      {
+         return value != null && ACCEPTABLE_NUMERIC_TYPES.Any(t => t.Item1.Equals(value.GetType()));
+      }
 
-        public override JsonValue GetValue(object value)
-        {
-            return ACCEPTABLE_NUMERIC_TYPES.First(t => t.Item1.Equals(value.GetType())).Item2(value);
-        }
-    }
+      public override JsonValue GetValue(object value)
+      {
+         return ACCEPTABLE_NUMERIC_TYPES.First(t => t.Item1.Equals(value.GetType())).Item2(value);
+      }
+   }
 
-    public class JsonArrayType : JsonValueType
-    {
-        private JsonArrayType() : base() { }
+   public class JsonArrayType : JsonValueType
+   {
+      private JsonArrayType() : base() { }
 
-        public static readonly JsonArrayType INSTANCE = new JsonArrayType();
+      public static readonly JsonArrayType INSTANCE = new JsonArrayType();
 
-        public override bool ValueQualifies(object value)
-        {
-            return value != null && value is IEnumerable<object>;
-        }
+      public override bool ValueQualifies(object value)
+      {
+         return value != null && value is IEnumerable<object>;
+      }
 
-        public override JsonValue GetValue(object value)
-        {
-            return new JsonArray(JsonValueTypes.Interpret((object[]) value));
-        }
-    }
+      public override JsonValue GetValue(object value)
+      {
+         Contract.Assume(value != null);
+         return new JsonArray(JsonValueTypes.Interpret((object[])value));
+      }
+   }
 
-    public class JsonObjectType : JsonValueType
-    {
-        private JsonObjectType() : base() { }
+   public class JsonObjectType : JsonValueType
+   {
+      private JsonObjectType() : base() { }
 
-        public static readonly JsonObjectType INSTANCE = new JsonObjectType();
+      public static readonly JsonObjectType INSTANCE = new JsonObjectType();
 
-        public override bool ValueQualifies(object value)
-        {
-           if (value == null) return false;
+      public override bool ValueQualifies(object value)
+      {
+         if (value == null) return false;
 
-           var objType = value.GetType();
-           if (objType.IsArray && objType.GetElementType().Equals(typeof(object)))
-           {
-              return false;
-           }
+         var objType = value.GetType();
+         if (objType.IsArray && objType.GetElementType().Equals(typeof(object)))
+         {
+            return false;
+         }
 
 
-            var other = value as System.Collections.IEnumerable;
-            if (other == null) return false;
+         var other = value as System.Collections.IEnumerable;
+         if (other == null) return false;
 
-            bool isKVPs = true;
-            foreach (var item in other)
-            {
-                isKVPs = item.GetType().GetProperty("Key") != null && item.GetType().GetProperty("Value") != null;
-            }
-            return isKVPs;
-        }
+         bool isKVPs = true;
+         foreach (var item in other)
+         {
+            isKVPs = item.GetType().GetProperty("Key") != null && item.GetType().GetProperty("Value") != null;
+         }
+         return isKVPs;
+      }
 
-        public override JsonValue GetValue(object value)
-        {
-            var other = (System.Collections.IEnumerable)value;
-            var listOfKvps = new List<KeyValuePair<string, object>>();
-            foreach (var item in other)
-            {
-                var key = item.GetType().GetProperty("Key").GetValue(item, null).ToString();
-                var val = item.GetType().GetProperty("Value").GetValue(item, null);
+      public override JsonValue GetValue(object value)
+      {
+         var other = (System.Collections.IEnumerable)value;
+         var listOfKvps = new List<KeyValuePair<string, object>>();
+         foreach (var item in other)
+         {
+            var key = item.GetType().GetProperty("Key").GetValue(item, null).ToString();
+            var val = item.GetType().GetProperty("Value").GetValue(item, null);
 
-                listOfKvps.Add(new KeyValuePair<string, object>(key, val));
-            }
-            return new JsonObject(JsonValueTypes.Interpret(listOfKvps));
-        }
-    }
+            listOfKvps.Add(new KeyValuePair<string, object>(key, val));
+         }
+         return new JsonObject(JsonValueTypes.Interpret(listOfKvps));
+      }
+   }
 
-    public static class JsonValueTypes
-    {
-        public static readonly JsonValueType OBJECT = JsonObjectType.INSTANCE;
-        public static readonly JsonValueType ARRAY = JsonArrayType.INSTANCE;
-        public static readonly JsonValueType STRING = JsonStringType.INSTANCE;
-        public static readonly JsonValueType NUMBER = JsonNumberType.INSTANCE;
-        public static readonly JsonValueType BOOL = JsonBooleanType.INSTANCE;
-        public static readonly JsonValueType NULL = JsonNullType.INSTANCE;
-        
-        public static readonly JsonValueType[] ALL_TYPE = new[]
+   public static class JsonValueTypes
+   {
+      public static readonly JsonValueType OBJECT = JsonObjectType.INSTANCE;
+      public static readonly JsonValueType ARRAY = JsonArrayType.INSTANCE;
+      public static readonly JsonValueType STRING = JsonStringType.INSTANCE;
+      public static readonly JsonValueType NUMBER = JsonNumberType.INSTANCE;
+      public static readonly JsonValueType BOOL = JsonBooleanType.INSTANCE;
+      public static readonly JsonValueType NULL = JsonNullType.INSTANCE;
+
+      public static readonly JsonValueType[] ALL_TYPE = new[]
             {
                 OBJECT,
                 ARRAY,
@@ -198,25 +200,36 @@ namespace DynamicJson
             };
 
 
-        public static IEnumerable<KeyValuePair<string, JsonValue>> Interpret(IEnumerable<KeyValuePair<string, object>> pairs)
-        {
-            return pairs
-                .Select(kvp => new KeyValuePair<string, JsonValue>(kvp.Key, Interpret(kvp.Value)));
-        }
+      public static IEnumerable<KeyValuePair<string, JsonValue>> Interpret(IEnumerable<KeyValuePair<string, object>> pairs)
+      {
+         Contract.Requires(pairs != null);
+         Contract.Ensures(Contract.Result<IEnumerable<KeyValuePair<string, JsonValue>>>() != null);
+         return pairs
+             .Select(kvp => new KeyValuePair<string, JsonValue>(kvp.Key, Interpret(kvp.Value)));
+      }
 
-        public static JsonValue[] Interpret(object[] objArray)
-        {
-            return objArray
-                .Select(o => Interpret(o))
-                .ToArray();
-        }
+      public static JsonValue[] Interpret(object[] objArray)
+      {
+         Contract.Requires(objArray != null);
+         Contract.Ensures(Contract.Result<JsonValue[]>() != null);
+         return objArray
+             .Select(o => Interpret(o))
+             .ToArray();
+      }
 
-        public static JsonValue Interpret(object o)
-        {
-            return ALL_TYPE
-                .First(t => t.ValueQualifies(o))
-                .GetValue(o);
-        }
-    }
+      public static JsonValue Interpret(object o)
+      {
+         Contract.Ensures(Contract.Result<JsonValue>() != null);
+         var jsonValue = ALL_TYPE
+            .First(t => t.ValueQualifies(o))
+            .GetValue(o);
+         if (jsonValue == null)
+         {
+            throw new InvalidOperationException("Unknown type in interpret");
+         }
+         Contract.Assume(jsonValue != null);
+         return jsonValue;
+      }
+   }
 
 }

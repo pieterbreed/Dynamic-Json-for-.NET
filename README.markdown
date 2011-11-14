@@ -115,3 +115,13 @@ ASP Environments
 There is special support for the way that datetime values are [serialized in ASP (WCF) environments](http://msdn.microsoft.com/en-us/library/bb412170.aspx).
 
 You use it with the AspTools: string SerializeDateTimeToString(DateTime d) and AspTools: DateTime ParseStringToDateTime(JsonString str) methods.
+
+What's New
+----------
+
+0.9.5
+=====
+
+- Contracts
+- casts from JsonValue to various numeric value types, string, boolean
+- IsString, IsNumber, IsBool, IsArray, IsObject, IsNull on JsonValue
