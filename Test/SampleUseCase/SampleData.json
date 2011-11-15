@@ -1,0 +1,11 @@
+﻿{
+   "dynamicDataUseCase": 
+      {
+         "useCase1": "this is a string value",
+         "useCase2": 
+            {
+               "format": "this is the format function with {0} extra {1} parameters {2}",
+               "params": [123, "testing", true]
+            }
+      }
+}

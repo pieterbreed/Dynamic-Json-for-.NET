@@ -57,6 +57,7 @@
     <Compile Include="ObjectParsingTests.cs" />
     <Compile Include="Printing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleUseCase\Samples.cs" />
     <Compile Include="ThatArraysAreUsefull.cs" />
     <Compile Include="ThatAssignmentsGenerateKVPs.cs" />
     <Compile Include="ThatValuesParses.cs" />
@@ -67,6 +68,9 @@
       <Project>{A205AF02-275A-4833-A247-3F42FC36CEBE}</Project>
       <Name>DynamicJsonForDotNET</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SampleUseCase\SampleData.json" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
