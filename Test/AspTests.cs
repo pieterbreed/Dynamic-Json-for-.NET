@@ -43,5 +43,11 @@ namespace Test
 
          Assert.IsTrue(AspTools.StringIsDate("/Date(1320451200000)/"));
       }
+
+      [TestMethod]
+      public void ThatNegativeDateTimesWorks()
+      {
+         Assert.AreEqual(AspTools.ParseStringToDateTime(new JsonString("/Date(-20476800000)/")), new DateTime(1969, 5, 9, 0, 0, 0));
+      }
    }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Dynamic;
@@ -559,9 +560,20 @@ namespace DynamicJson
          return Pairs.Aggregate(357, (i, kvp) => i ^ kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode());
       }
 
+      public static JsonObject Parse(Stream stream)
+      {
+         var inputStream = new ANTLRInputStream(stream);
+         return ParseANTLRStream(inputStream);
+      }
+
       public static JsonObject Parse(string s)
       {
          var inputStream = new ANTLRStringStream(s);
+         return ParseANTLRStream(inputStream);
+      }
+
+      private static JsonObject ParseANTLRStream(ANTLRStringStream inputStream)
+      {
          var lexer = new JsonLexer(inputStream);
          var tokens = new CommonTokenStream(lexer);
          var parser = new JsonParser(tokens);

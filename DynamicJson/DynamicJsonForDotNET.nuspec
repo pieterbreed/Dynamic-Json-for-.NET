@@ -2,7 +2,7 @@
 <package >
     <metadata>
         <id>DynamicJsonForDotNET</id>
-        <version>0.9.4</version>
+        <version>0.9.6</version>
         <title>DynamicJsonForDotNET</title>
         <authors>Pieter Breed</authors>
         <owners>Pieter Breed</owners>

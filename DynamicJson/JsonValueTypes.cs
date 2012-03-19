@@ -78,7 +78,7 @@ namespace DynamicJson
 
       public override bool ValueQualifies(object value)
       {
-         return value != null && value.GetType().Equals(typeof(string));
+         return value != null && value.GetType() == typeof(string);
       }
 
       public override JsonValue GetValue(object value)
@@ -148,10 +148,14 @@ namespace DynamicJson
          if (value == null) return false;
 
          var objType = value.GetType();
-         if (objType.IsArray && objType.GetElementType().Equals(typeof(object)))
+         if (objType.IsArray && objType.GetElementType() == typeof(object))
          {
             return false;
          }
+
+         if (value.GetType() == typeof(string)) return false;
+         if (value.GetType() == typeof(double)) return false;
+         if (value.GetType() == typeof(bool)) return false;
 
 
          var other = value as System.Collections.IEnumerable;

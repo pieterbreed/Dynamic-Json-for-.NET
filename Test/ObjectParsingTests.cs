@@ -11,6 +11,31 @@ namespace Test
     [TestClass]
     public class ObjectParsingTests
     {
+       [TestMethod]
+       public void ThatStringsParse()
+       {
+          //var jsonStr = JsonObject.Parse(@"""""");
+       }
+
+      [TestMethod]
+       public void ThatStringsDoesntParseAsObject2()
+      {
+         var str =
+            @"{
+            ""AssetClass"": ""Equity"",
+            ""AvailableFromDate"": ""/Date(1125446400000)/"",
+            ""Currency"": ""ZAR"",
+            ""ID"": ""TEGN"",
+            ""InceptionDate"": ""/Date(1125446400000)/"",
+            ""Name"": ""Australia--Equity--General"",
+            ""Region"": """",
+            ""ShareID"": ""0""
+        }";
+         var json = JsonObject.Parse(str);
+         Assert.IsTrue(json["Region"].IsString);
+
+      }
+
         [TestMethod]
         public void ThatEmptyObjectParses()
         {

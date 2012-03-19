@@ -12,7 +12,7 @@ namespace DynamicJson
    /// </summary>
    public static class AspTools
    {
-      private static readonly string DATETIME_REGEX_STR = @"/Date\((\d+\+\d\d\d\d|\d+)\)/";
+      private static readonly string DATETIME_REGEX_STR = @"/Date\(([-]?\d+\+\d\d\d\d|[-]?\d+)\)/";
       private static readonly Regex PARSE_DATETIME_STR = new Regex(DATETIME_REGEX_STR);
 
       /// <summary>
@@ -42,8 +42,18 @@ namespace DynamicJson
 
          try
          {
-            return new DateTime(1970, 1, 1, 0, 0, 0, isUtc ? DateTimeKind.Utc : DateTimeKind.Local)
-                     + new TimeSpan(long.Parse(matchedValue) * 10000);
+            var ms = long.Parse(matchedValue);
+            if (ms > 0)
+            {
+               return new DateTime(1970, 1, 1, 0, 0, 0, isUtc ? DateTimeKind.Utc : DateTimeKind.Local)
+                     + new TimeSpan(ms * 10000);
+            }
+            else
+            {
+               return new DateTime(1970, 1, 1, 0, 0, 0, isUtc ? DateTimeKind.Utc : DateTimeKind.Local)
+                     - new TimeSpan(-ms * 10000);
+            }
+            
          }
          catch (FormatException fe)
          {
