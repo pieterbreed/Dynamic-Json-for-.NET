@@ -18,6 +18,9 @@ namespace DynamicJson
          Type = type;
       }
 
+      [Pure]
+      public abstract object RawValue { get; }
+
       public JsonValueType Type { get; private set; }
 
       public abstract string MakePrintValue();
@@ -131,6 +134,11 @@ namespace DynamicJson
          Contract.Ensures(Contract.Result<string>() != null);
          throw new NotImplementedException();
       }
+
+      public override object RawValue
+      {
+         get { throw new NotImplementedException(); }
+      }
    }
 
    public class JsonString : JsonValue
@@ -142,6 +150,11 @@ namespace DynamicJson
       }
 
       public string Value { get; private set; }
+
+      public override object RawValue
+      {
+         get { return Value; }
+      }
 
       public static implicit operator string(JsonString s)
       {
@@ -244,6 +257,11 @@ namespace DynamicJson
 
       public double Value { get; private set; }
 
+      public override object RawValue
+      {
+         get { return Value; }
+      }
+
       public static implicit operator double(JsonNumber d)
       {
          return d.Value;
@@ -333,6 +351,11 @@ namespace DynamicJson
 
       public bool Value { get; private set; }
 
+      public override object RawValue
+      {
+         get { return Value; }
+      }
+
       public static implicit operator bool(JsonBoolean b)
       {
          return b.Value;
@@ -360,6 +383,11 @@ namespace DynamicJson
       public JsonNull() : base(JsonValueTypes.NULL) { }
 
       public object Value { get { return null; } }
+
+      public override object RawValue
+      {
+         get { return null; }
+      }
 
       public override string MakePrintValue()
       {
@@ -399,6 +427,11 @@ namespace DynamicJson
 
       [Pure]
       public JsonValue[] Value { get { return m_values.ToArray(); } }
+
+      public override object RawValue
+      {
+         get { return Value; }
+      }
 
       [Pure]
       public JsonValue[] Values { get { return Value; } }
@@ -504,6 +537,11 @@ namespace DynamicJson
       public IEnumerable<KeyValuePair<string, JsonValue>> Value { get { return m_values; } }
       public IEnumerable<KeyValuePair<string, JsonValue>> Pairs { get { return Value; } }
       public IDictionary<string, JsonValue> Dictionary { get { return m_values.ToDictionary(v => v.Key, v => v.Value); } }
+
+      public override object RawValue
+      {
+         get { return Value; }
+      }
 
       public void Add(string s, JsonValue v)
       {

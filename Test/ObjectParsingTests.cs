@@ -29,10 +29,14 @@ namespace Test
             ""InceptionDate"": ""/Date(1125446400000)/"",
             ""Name"": ""Australia--Equity--General"",
             ""Region"": """",
+            ""Number"": ""123.123"",
+            ""Number2"": 123.123,
             ""ShareID"": ""0""
         }";
          var json = JsonObject.Parse(str);
          Assert.IsTrue(json["Region"].IsString);
+         Assert.IsTrue(json["Number"].IsString);
+         Assert.IsTrue(json["Number2"].IsNumber);
 
       }
 
