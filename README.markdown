@@ -194,6 +194,11 @@ You use it with the AspTools: string SerializeDateTimeToString(DateTime d) and A
 What's New
 ----------
 
+0.9.7
+=====
+
+- RawValue on the JsonValue type, which gives an `object` of the primitive value
+
 0.9.5
 =====
 
