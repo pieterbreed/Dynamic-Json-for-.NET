@@ -2,7 +2,7 @@
 <package >
     <metadata>
         <id>DynamicJsonForDotNET</id>
-        <version>0.9.7</version>
+        <version>0.9.8</version>
         <title>DynamicJsonForDotNET</title>
         <authors>Pieter Breed</authors>
         <owners>Pieter Breed</owners>
@@ -11,8 +11,8 @@
         <iconUrl>https://github.com/pieterbreed/Dynamic-Json-for-.NET/raw/master/icon.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>json library for .net 4.0 that preserves the dynamicity of json</description>
-        <releaseNotes>Initial release.</releaseNotes>
-        <copyright>Copyright 2011</copyright>
+        <releaseNotes>Fixes the last known bug.</releaseNotes>
+        <copyright>Copyright 2013</copyright>
         <tags>json dynamic</tags>
 
     </metadata>
