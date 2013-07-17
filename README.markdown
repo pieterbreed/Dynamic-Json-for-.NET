@@ -4,13 +4,16 @@ README
 Status
 ------
 
-May 2012: We've been using the library in a production application with high load without encountering any issues. We've
-since started adopting it in more internal applications which causes new features to be added from time to time.
+July 2013: This library has been in production for a loooooong time now. I was aware of a bug in it for the last few
+months which we've never run into where a string like @"\\t" which must escape into [ '\\', 't' ] would 
+in fact escape into [ '\t' ] (by first escaping into [ '\\', 't' ] and then again into [ '\t' ]). 
+This bug is now fixed and the unit test which has been patiently exposing the issue for the last few months now passes.
 
-Outstanding
------------
+Why you might not want to is it
+-------------------------------
 
-* Pretty printing
+* Can't do pretty printing
+* Hard dependency on ANTLR library
 
 What
 ----
@@ -28,17 +31,18 @@ even when that doesn't have to be the case.
 
 For example: WCF is an awesome technology, writing REST services have never been so easy, but data enters
 the system only once it's been serialized into objects via classed marked with DataContract attributes, 
-which is essentially the same user-story that we've had for serialization since the early days.
+which is essentially the same user-story that we've had for serialization since ancient times.
 
 JSON on the other hand comes from JavaScript which is a dynamically typed language. Data can enter the
-system any way it wants to. 
+system any way it damn-it-to-hell wants to. 
 
 An example of the kind of problem that is being discussed here is when a report can be broken up into
 sections. An example of a section is a paragraph, or one kind of chart, or another kind of chart and a table.
 
 None of those types of sections are logically the same type of thing, but they belong together and are
 interchangable (can come in any order). While you can invent a structure that knows how to deal with this
-situation I'm saying you might not have to and this library can help you in this situation.
+situation (maybe some fancy inheriting-this-or-the-other structure) I'm saying you might not *have* to 
+and this library can help you in this situation.
 
 
 How
@@ -193,6 +197,10 @@ You use it with the AspTools: string SerializeDateTimeToString(DateTime d) and A
 
 What's New
 ----------
+
+0.9.8
+=====
+- Fixed the last bug I was aware of: json string escaped sequences escaping wrong
 
 0.9.7
 =====
