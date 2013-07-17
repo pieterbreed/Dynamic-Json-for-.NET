@@ -14,7 +14,36 @@ namespace Test
        [TestMethod]
        public void ThatStringsParse()
        {
-          //var jsonStr = JsonObject.Parse(@"""""");
+          var jsonStr = JsonValue.Parse(@"""""");
+       }
+
+       [TestMethod]
+       public void TestThatEscapeTestWorks()
+       {
+          var result = DynamicJson.Utilities.PerformOneEscapeStep(
+             "\\t",
+             "\t",
+             new[]
+                {
+                   "aaa\\tbbb\\tccc", "\\tddd"
+                });
+
+          Assert.IsTrue(
+             new[]
+                {
+                   "aaa", "\t", "bbb", "\t", "ccc", "", "\t", "ddd"
+                }.SequenceEqual(result),
+             "escape step not behaving");
+       }
+
+       [TestMethod]
+       public void ThatStringsEscapesProperly()
+       {
+          var escapedString = @"""\tab\newline\\backslash\\tab-in-3-letters""";
+          var js = JsonValue.Parse(escapedString);
+
+          Assert.IsTrue(js.IsString);
+          Assert.AreEqual("\tab\newline\\backslash\\tab-in-3-letters", (string) js);
        }
 
       [TestMethod]

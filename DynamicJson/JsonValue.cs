@@ -120,6 +120,32 @@ namespace DynamicJson
       [Pure]
       public bool IsObject { get { return Type == JsonValueTypes.OBJECT; } }
 
+      public static JsonValue Parse(Stream stream)
+      {
+         var inputStream = new ANTLRInputStream(stream);
+         return ParseANTLRStream(inputStream);
+      }
+
+      public static JsonValue Parse(string s)
+      {
+         var inputStream = new ANTLRStringStream(s);
+         return ParseANTLRStream(inputStream);
+      }
+
+      private static JsonValue ParseANTLRStream(ANTLRStringStream inputStream)
+      {
+         var lexer = new JsonLexer(inputStream);
+         var tokens = new CommonTokenStream(lexer);
+         var parser = new JsonParser(tokens);
+         var parseTree = parser.value().Tree;
+         var stream = new CommonTreeNodeStream(parseTree);
+         var tree = new JsonTree(stream);
+
+         var @object = tree.value();
+         Contract.Assume(@object != null);
+         return JsonValueTypes.Interpret(@object);
+      }
+
    }
 
    [ContractClassFor(typeof(JsonValue))]
